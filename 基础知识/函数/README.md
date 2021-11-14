@@ -84,10 +84,75 @@ print(musician)
 接下来拓展这个函数，使其接受可选值，如中间名，年龄，职业或其他任何要存储的信息
 
 ## 结合使用函数和while循环
+结合使用函数get_formatted_name()和while循环
 
+```python
+def get_formatted_name(first_name,last_name):
+    full_name = f"{first_name} {last_name}"
+    return full_name.title()
+
+# 这是一个无限循环
+while True:
+    print("\nPlease tell me your name:")
+    f_name = input("First name: ")
+    l_name = input("Last name: ")
+
+formatted_name = get_formatted_name(f_name, l_name)
+print(f"\nHello, {formatted_name}!")
+```
+while循环存在一个问题，没有定义退出条件，所以提示用户输入能进行break退出
+
+```python
+def get_formatted_name(first_name,last_name):
+    full_name = f"{first_name} {last_name}"
+    return full_name.title()
+
+# 这是一个无限循环
+while True:
+    print("\nPlease tell me your name:")
+    print("(enter 'q' at any time to quit)")
+
+    f_name = input("First name: ")
+    if f_name == 'q':
+        break
+
+    l_name = input("Last name: ")
+    if l_name == 'q':
+        break
+
+formatted_name = get_formatted_name(f_name, l_name)
+print(f"\nHello, {formatted_name}!")
+```
 
 # 传递列表
+
+```python
+def greest_users(names):
+    for name in names:
+        msg = f"Hello,{name.title()}!"
+        print(msg)
+
+usernames = ['sayu','ayaka','paimo']
+greest_users(usernames)
+```
+将greet_users()定义为接收一个名字列表，并将其赋给形参names。这个函数遍历收到的列表，并对其中的每位用户打印一句问候语，定义一个用户列表usernames，然后调用greet_users()并将列表传递给它。
 ## 在函数中修改列表
+
+```python
+# 创建要打印的列表
+unprint_designs = ['phone case','robot pendant','dodecahedron']
+completed_models = []
+
+while unprint_designs:
+    current_design = unprint_designs.pop()
+    print(f"Printing model:{current_design}")
+    completed_models.append(current_design)
+
+# 显示打印好的模型
+print("\nThe following models have been printed:")
+for completed_model in completed_models:
+    print(completed_model)
+```
 # 传递任意数量的实参
 # 将函数储存在模块中
 ## 导入整个模块

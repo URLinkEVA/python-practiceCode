@@ -153,9 +153,142 @@ print("\nThe following models have been printed:")
 for completed_model in completed_models:
     print(completed_model)
 ```
+重新组织代码，编写两个函数提高效率，第一个函数处理负责打印设计的工作，第二个概述打印了哪些设计
+
+```python
+def print_models(unprinted_designs,completed_models):
+    while unprinted_designs:
+        current_design = unprinted_designs.pop()
+        print(f"Printing model:{current_design}")
+        completed_models.append(current_design)
+
+def show_completed_models(completed_models):
+    print("\bThe following models have been printed:")
+    for completed_model in completed_models:
+        print(completed_model)
+
+unprinted_designed = ['phone case','robot pendant','dodecahedron']
+completed_models = []
+
+print_models(unprinted_designs,completed_models)
+show_completed_models(completed_models)
+```
+使用函数，这个程序更容易拓展和维护
+## 禁止函数修改列表
+要将列表的副本传递给函数
+
+> function_name(list_name[:])
+
+切片表示法[:]创造列表的副本
 # 传递任意数量的实参
+不知道函数需要接收多少个实参时，可以参考以下例子
+
+```python
+def make_pizza(*toppings):
+    print(toppings)
+
+make_pizza('pepperoni')
+make_pizza('mushrooms','green peppers','extra cheese')
+```
+形参名*toppings中的星号让python创建一个名为toppings的空元组，并将收到的所有值都封装到这个元组中
+
+现在将函数调用print()替换为一个循环，遍历列表进行描述
+
+```python
+def make_pizza(*toppings):
+    print(f"\nMaking a pizza with the following toppings:")
+    for topping in toppings:
+        print(f"-{topping}")
+
+make_pizza('pepperoni')
+make_pizza('mushrooms','green peppers','extra cheese')
+```
+## 结合使用位置实参和任意数量实参
+如果让函数接收不同类型的实参，必须将函数定义中将接纳任意数量实参的形参放在最后。python先匹配位置实参和关键字实参，再将余下的实参都收集到最后一个实参中。
+
+例如前面的函数添加一个表示尺寸的形参，必须将其放在形参*toppings的前面
+
+```python
+def make_pizza(size,*toppings):
+    print(f"\nMaking a {size}-inch pizza with the following toppings:")
+    for topping in toppings:
+        print(f"-{topping}")
+
+make_pizza(16,'pepperoni')
+make_pizza(12,'mushrooms','green peppers','extra cheese')
+```
+## 使用任意数量的关键字实参
+
+```python
+def build_profile(first,last,**user_info):
+    user_info['first_name'] = first
+    user_info['last_name'] = last
+    return user_info
+
+user_profile = build_profile('albert','sinstein',location='princeton',field='physics')
+print(user_profile)
+```
+函数build_profile()的定义要求提供名和姓，同时允许根据需要提供任意数量的名称值对。形参**user_info中的两个星号让python创建一个名为user_info的空字典，并将收到的所有名称值对都放在这个字典中。
 # 将函数储存在模块中
+使用函数的优点之一是可将代码块与主程序分离。通过给函数指定描述性名称，可让主程序容易理解得多。还可更进一步，将函数储存在称为**模块**的独立文件中，再将模块**导入**到主程序中，import语句允许在当前运行的程序文件中使用模块中的代码。
+
+通过将函数储存在独立的文件中，可隐藏程序代码的细节，将重点放在程序的高层逻辑上，还能在众多不同的程序中重用函数。知道如何导入函数还能让你使用别人编写的函数库。
 ## 导入整个模块
+要让函数是可导入的，得先创造模块。下面来建造一个包含函数make_pizza()的模块：
+pizza2.py
+```python
+def make_pizza(size,*toppings):
+    print(f"\nMaking a {size}-inch pizza with the following toppings:")
+    for topping in toppings:
+        print(f"-{topping}")
+```
+然后在这个文件所在的目录中创建一个文件，这个新文件导入刚创建的模块，再调用make_pizza()两次
+
+```python
+import pizza2
+
+pizza2.make_pizza(16,'pepperoni')
+pizza2.make_pizza(12,'mushrooms','green peppers','extra cheese')
+```
+只需编写一条import语句并在其中指定模块名，就可在程序中使用该模块中的所有函数
 ## 导入特定的函数
+还可以导入模块中的特定函数，这种导入方式的语法如下：
+
+```python
+form module_name import function_name
+```
+通过用逗号分隔函数名，可根据需要从模块中导入任意数量的函数：
+
+```python
+form module_name import function_0,function_1,function_2
+```
+对于前面的making_pizzas.py示例，如果只想导入其中要使用的函数，代码类似如下：
+
+```python
+from pizza2 import make_pizza
+
+make_pizza(16,'pepperoni')
+make_pizza(12,'mushrooms','green peppers','extra cheese')
+```
+## 使用as给函数指定别名
+函数名称冲突或者太长，可指定简短且独一无二的别名，通用语法如下：
+
+```python
+form module_name import function_name as fn
+```
+
+## 使用as给模块指定别名
+给模块指定简短的别名，能更轻松的调用模块中的函数，通用语法如下：
+
+```python
+import module_name as mn
+```
+## 导入模块中的所有函数
+使用星号（*）运算符可让python导入模块中的所有函数
+
+```python
+from module_name import *
+```
+import语句中的星号让模块中的每个函数都复制到这个程序文件中
 # 函数编写指南
 # 小结

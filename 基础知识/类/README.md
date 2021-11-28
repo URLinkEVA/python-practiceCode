@@ -400,3 +400,225 @@ my_tesla.battery.describe_battery()
 my_tesla.battery.get_range()
 ```
 新增方法get_range()做一个简单的比较分析
+# 导入类
+将类存储在模块中，在主程序中导入所需的模块
+## 导入单个类
+下面来创建一个只包含Car类的模块。
+
+```python
+"""一个可用于表示汽车的类"""
+class Car:
+
+    def __init__(self,make,model,year):
+        """初始化描述汽车的属性"""
+        self.make = make
+        self.model = model
+        self.year = year
+        self.odometer_reading = 0
+
+    def get_descriptive_name(self):
+        """返回整洁的描述性名称"""
+        long_name = f"{self.year} {self.make} {self.model}"
+        return long_name.title()
+
+    def read_odometer(self):
+        """指出汽车的里程"""
+        print(f"This car has {self.odometer_reading} miles on it.")
+
+    def update_odometer(self,mileage):
+        """将里程表读数设置为指定的值，禁止将里程表读数往回调"""
+        if mileage >= self.odometer_reading:
+            self.odometer_reading = mileage
+        else:
+            print("You can't roll back an odometer!")
+
+    def increment_odometer(self,miles):
+        """将里程表读数增加指定的量"""
+        self.odometer_reading += miles
+```
+下面来创建另一个文件my_car.py，在其中导入Car类并创建其实例：
+
+```python
+from car import Car
+
+my_new_car = Car('audi','a7','2019')
+print(my_new_car.get_descriptive_name())
+
+my_new_car.odometer_reading = 23
+my_new_car.read_odometer()
+```
+输出结果：
+
+```python
+2019 Audi A7
+This car has 23 miles on it.
+```
+
+## 在一个模块中存储多个类
+根据需求在一个模块中存储任意数量的类。Battery类和ElectricCar类都可帮助，下面都加入模块car.py中：
+
+```python
+"""一个可用于表示汽车的类"""
+class Car:
+
+    def __init__(self,make,model,year):
+        """初始化描述汽车的属性"""
+        self.make = make
+        self.model = model
+        self.year = year
+        self.odometer_reading = 0
+
+    def get_descriptive_name(self):
+        """返回整洁的描述性名称"""
+        long_name = f"{self.year} {self.make} {self.model}"
+        return long_name.title()
+
+    def read_odometer(self):
+        """指出汽车的里程"""
+        print(f"This car has {self.odometer_reading} miles on it.")
+
+    def update_odometer(self,mileage):
+        """将里程表读数设置为指定的值，禁止将里程表读数往回调"""
+        if mileage >= self.odometer_reading:
+            self.odometer_reading = mileage
+        else:
+            print("You can't roll back an odometer!")
+
+    def increment_odometer(self,miles):
+        """将里程表读数增加指定的量"""
+        self.odometer_reading += miles
+
+class Battery:
+    """"模拟电瓶"""
+
+    def __init__(self,battery_size=75):
+        """初始化电瓶的属性""" 
+        self.battery_size = battery_size
+
+    def describe_battery(self):
+        print(f"This car has a {self.battery_size}-kWh battery.")
+
+    def get_range(self):
+        """打印一条消息，指出电瓶的续航里程"""
+        if self.battery_size == 75:
+            range = 260
+        elif self.battery_size == 100:
+            range = 315
+
+        print(f"This car can go about {range} miles on a full charge.")
+
+class ElectricCar(Car):
+    """电动车独特之处"""
+
+    def __init__(self,make,model,year):
+        """初始化"""
+        super().__init__(make,model,year)
+        self.battery = Battery()
+```
+新建一个名为my_electric_car.py的文件，导入ElectricCar类，并创建一辆电动车：
+
+```python
+from car import ElectricCar
+
+my_tesla = ElectricCar('tesla','model s',2019)
+
+print(my_tesla.get_descriptive_name())
+my_tesla.battery.describe_battery()
+my_tesla.battery.get_range()
+```
+输出与之前相同，但大部分逻辑隐藏在一个模块中：
+
+```python
+2019 Tesla Model S
+This car has a 75-kWh battery.
+This car can go about 260 miles on a full charge.
+```
+
+## 从一个模块中导入多个类
+可根据需要在程序文件中导入任意数量的类。如果要在同一个程序中创建普通与电动。就需要将Car类和ElectricCar类都导入。
+```python
+from car import Car,ElectricCar
+
+my_beetle = Car('volkswagen','beetle',2019)
+print(my_beetle.get_descriptive_name())
+
+my_tesla = ElectricCar('tesla','roadster',2019)
+print(my_tesla.get_descriptive_name())
+```
+从一个模块导入多个类时，用逗号分隔了各个类。导入必要的类后，就可根据需要创建每个类的任意数量实例。
+
+输出结果：
+
+```python
+2019 Volkswagen Beetle
+2019 Tesla Roadster
+```
+
+## 导入整个模块
+导入整个模块，再使用句点表示法访问需要的类
+
+```python
+import car
+
+my_beetle = car.Car('volkswagen','beetle',2019)
+print(my_beetle.get_descriptive_name())
+
+my_tesla = car.ElectricCar('tesla','roadster',2019)
+print(my_tesla.get_descriptive_name())
+```
+导入整个car模块，然后使用语法module.name.ClassName访问需要的类
+## 导入模块中的所有类
+
+```python
+from module_name import * 
+```
+不推荐使用这种导入方式
+## 在一个模块中导入到另一个模块
+有时候需要将类分散到多个模块中，以免模块太大或在同一个模块中存储不相关的类。将类存储在多个模块中时，会发现一个模块中的类依赖于另一个模块中的类。在这种情况下，可在前一个模块中导入必要的类。
+
+下面将Car类存储在一个模块中，并将Battery类和ElectricCar类存储在另一个模块中
+```python
+from car import Car
+    
+class Battery:
+    --snip--
+
+class ElectricCar(Car):
+	--snip--
+```
+ElectricCar类可以访问其父类Car
+## 使用别名
+导入类时，可指定别名
+比如反复输入ElectricCar，可以替换为EC
+
+```python
+from electric_car import ElectricCar as EC
+```
+每当需要创建电动车实例时，都可使用这个别名
+
+```python
+my_tesla = EC('tesla','model s',2019)
+```
+
+## 自定义工作流程
+一开始应让代码结构尽可能简单。萌新先尽可能在一个文件中完成所有的工作，确定一切都能正常运行后，再将类移到独立的模块中。后期需要模块和文件的交互方式，可以在项目开始时就尝试将类存储到模块中。
+# python标准库
+python标准库是一组模块，这是别人编写好的，只需在程序开头包含一句简单的import语句即可，例如下面的两个函数：randint()和choice()
+
+```python
+from random import randint
+print(randint(1,6))
+```
+
+```python
+from random import choice
+players = ['Barbara','Klee','Dliuc','Jean','Sucrose','Venti','Amber']
+first_up = choice(players)
+print(first_up)
+```
+还可以从其他地方下载外部模块，例如后期的cv2，matplotlib，numpy
+[下载参考文章](https://blog.csdn.net/qq_45618521/article/details/121461399)
+# 类编码风格
+类名应采用驼峰命名法，即类名中的每个字母的首字母都大写，而不使用下划线。实例名和模块名都采用小写格式，并在单词之间加下划线。
+
+对于每个类，都应紧跟在类定义后面包含一个文档字符串，这种文档字符串需要简要描述类的功能，并遵循编写函数的文档字符串时采用的格式约定，每个模块也一样。

@@ -6,7 +6,7 @@
 
 3、提交的作业：全部代码+代码说明文档+总结（包括最终实验结果截图，不少于800字）。
 
-![](https://gitee.com/kongla/njtu-cs-courses/raw/master/images/4aff.jpg)
+![](https://github.com/URLinkEVA/python-practiceCode/raw/main/Pic/4aff.jpg)
 
 （该网络包括4个Affine仿射层，每一层的神经元个数分别为100，100，50，10；
 3个ReLU激活层以及一个Softmax层，并采用Cross-Entropy Loss损失函数。
@@ -20,7 +20,7 @@
 
 3、提交的作业：全部代码+代码说明文档+总结（包括最终实验结果截图，不少于800字）。
 
-![](https://gitee.com/kongla/njtu-cs-courses/raw/master/images/3con.jpg)
+![](https://github.com/URLinkEVA/python-practiceCode/raw/main/Pic/3con.jpg)
 
 （该网络包括3个Convention卷积层；4个ReLU激活层；2个pooling池化层；2个Affine仿射层以及一个Softmax层，
 采用Cross-Entropy Loss损失函数。注意，该网络中卷积层的卷积核的数量，大小，填充和步幅，池化层的窗口大小、步幅，

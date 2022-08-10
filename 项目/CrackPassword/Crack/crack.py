@@ -37,7 +37,7 @@ if __name__ == "__main__":
     flag = 0
     passnum = 0
     if len(sys.argv) != 2:
-        print("[-] 命令格式有误,范例:python crackIt.py [ZipFilename]\n")
+        print("[-] 命令格式有误,范例:python crack.py [ZipFilename]\n")
         sys.exit()
     filename = sys.argv[1]
     if not os.path.isfile(filename):
